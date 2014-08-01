@@ -143,7 +143,8 @@ describe('storage', function () {
   it('bucketUsage', function (done) {
     var client = Client.create('test', 'test1234', 'jackson-test-space');
     co(function *() {
-      var data = yield client.bucketUsage();
+      var result = yield client.bucketUsage();
+      var data = result[0];
       expect(data).to.be.a('number');
       expect(data).to.be.above(0);
     })(done);

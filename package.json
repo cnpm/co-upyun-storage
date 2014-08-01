@@ -23,7 +23,7 @@
   "homepage": "https://github.com/cnpm/co-upyun-storage",
   "dependencies": {
     "thunkify": "*",
-    "upyun-storage": "*"
+    "upyun-storage": "0.0.2"
   },
   "devDependencies": {
     "co": "*",
