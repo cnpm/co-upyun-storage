@@ -1,6 +1,6 @@
 {
   "name": "co-upyun-storage",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "UpYun Storage for co",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/cnpm/co-upyun-storage",
   "dependencies": {
-    "thunkify": "*",
-    "upyun-storage": "0.0.2"
+    "thunkify": "2.1.2",
+    "upyun-storage": "0.0.3"
   },
   "devDependencies": {
     "co": "*",
