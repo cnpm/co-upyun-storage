@@ -8,6 +8,7 @@ describe('storage', function () {
   var filepath = __dirname + '/figures/sticker.jpg';
   var unexist = __dirname + '/figures/unexist.jpg';
   var client = Client.create('test', 'test1234', 'jackson-test-space');
+  var download = __dirname + '/figures/download.jpg';
 
   var buff;
   var size;
@@ -87,6 +88,49 @@ describe('storage', function () {
       expect(data).to.be.a('object');
       expect(data.length).to.be(size);
     })(done);
+  });
+
+  describe('pipe', function () {
+    var randomId = new Date().getTime();
+    var client = Client.create('test', 'test1234', 'jackson-test-space');
+    before(function (done) {
+      var pending = function (count, done) {
+        return function () {
+          count--;
+          if (count === 0) {
+            done();
+          }
+        };
+      };
+      done = pending(2, done);
+
+      client.putFile(filepath, '/sticker_pipe_' + randomId + '.jpg')(function (err, data, res) {
+        expect(err).to.not.be.ok();
+        expect(res.statusCode).to.be(200);
+        done();
+      });
+
+      fs.unlink(download, function (err) {
+        if (err) {
+          expect(err.code).to.be('ENOENT');
+        }
+        done();
+      });
+    });
+
+    it('ok', function (done) {
+      co(function *() {
+        var writable = fs.createWriteStream(download);
+        yield client.pipe('/sticker_pipe_' + randomId + '.jpg', writable);
+      })(function (err) {
+        expect(err).to.not.be.ok();
+        fs.readFile(download, function (err, file) {
+          expect(err).to.not.be.ok();
+          expect(file.length).to.be(size);
+          done();
+        });
+      });
+    });
   });
 
   it('getFileInfo', function (done) {
