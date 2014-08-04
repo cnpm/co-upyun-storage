@@ -9,11 +9,13 @@ describe('storage', function () {
   var unexist = __dirname + '/figures/unexist.jpg';
   var client = Client.create('test', 'test1234', 'jackson-test-space');
 
+  var buff;
   var size;
   before(function (done) {
     fs.readFile(filepath, function(err, data) {
       expect(err).to.not.be.ok();
       size = data.length;
+      buff = data;
       expect(size).to.be.above(0);
       done();
     });
@@ -41,6 +43,14 @@ describe('storage', function () {
   it('putFile should work', function(done){
     co(function *() {
       var result = yield client.putFile(filepath, '/sticker_' + randomId + '.jpg');
+      var res = result[1];
+      expect(res.statusCode).to.be(200);
+    })(done);
+  });
+
+  it('putBuffer should work', function(done){
+    co(function *() {
+      var result = yield client.putBuffer(buff, '/sticker_' + randomId + '.jpg');
       var res = result[1];
       expect(res.statusCode).to.be(200);
     })(done);
