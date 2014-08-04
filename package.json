@@ -4,7 +4,7 @@
   "description": "UpYun Storage for co",
   "main": "index.js",
   "scripts": {
-    "test": "make test-all"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
